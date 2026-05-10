@@ -1,8 +1,70 @@
+/* ============================================================
+   VARIABLES — PECADO Café Gastrobar
+   ============================================================ */
 :root {
-  --color-primary: #1a1a1a;
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-muted: #666;
-  --color-surface: #f9f9f9;
-  --font-body: system-ui, sans-serif;
+  /* ── Paleta de colores ── */
+  --color-primary:      #c9a84c;   /* dorado principal */
+  --color-primary-dark: #a8863a;   /* dorado oscuro */
+  --color-primary-light:#d4b56a;   /* dorado claro */
+  --color-black:        #000000;
+  --color-dark:         #111111;
+  --color-surface:      #c9a84c;   /* fondo dorado (footer, nav) */
+  --color-white:        #ffffff;
+  --color-text:         #000000;
+  --color-text-light:   #ffffff;
+  --color-text-muted:   rgba(255,255,255,0.75);
+  --color-border:       rgba(255,255,255,0.3);
+  --color-divider:      #333333;
+
+  /* ── Tipografía ── */
+  --font-heading: 'Georgia', 'Times New Roman', serif;
+  --font-body:    'Helvetica Neue', 'Arial', sans-serif;
+  --font-size-xs:  0.75rem;   /* 12px */
+  --font-size-sm:  0.875rem;  /* 14px */
+  --font-size-base:1rem;      /* 16px */
+  --font-size-md:  1.125rem;  /* 18px */
+  --font-size-lg:  1.25rem;   /* 20px */
+  --font-size-xl:  1.5rem;    /* 24px */
+  --font-size-2xl: 2rem;      /* 32px */
+  --font-size-3xl: 2.5rem;    /* 40px */
+
+  /* ── Espaciado ── */
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  1.5rem;
+  --space-lg:  2rem;
+  --space-xl:  3rem;
+  --space-2xl: 5rem;
+
+  /* ── Bordes ── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   24px;
+  --radius-xl:   40px;
+  --radius-full: 9999px;
+
+  /* ── Sombras ── */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.18);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.24);
+
+  /* ── Transiciones ── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* ── Layout ── */
+  --max-width:     1200px;
+  --nav-height:    80px;
+  --section-pad-v: 80px;
+  --section-pad-h: 2rem;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-pad-v: 48px;
+    --section-pad-h: 1rem;
+    --font-size-3xl: 1.75rem;
+    --font-size-2xl: 1.5rem;
+  }
 }

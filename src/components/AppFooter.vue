@@ -1,10 +1,31 @@
 <template>
-  <footer><p>© {{ year }} {{ siteData.nombre }}</p></footer>
+  <footer class="footer">
+    <div class="footer__inner container">
+      <p class="footer__copy">{{ data.copyright }}</p>
+    </div>
+  </footer>
 </template>
+
 <script setup>
-import siteData from '@/data/siteData.js'
-const year = new Date().getFullYear()
+import data from '../data/siteData.js'
 </script>
+
 <style scoped>
-footer { padding: 2rem; text-align: center; background: var(--color-surface); color: var(--color-text-muted); font-size: .875rem; }
+.footer {
+  background: var(--color-dark);
+  color: var(--color-white);
+  padding: var(--space-md) var(--section-pad-h);
+  text-align: center;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer__copy {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
 </style>
