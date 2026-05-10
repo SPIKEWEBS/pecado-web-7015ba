@@ -74,10 +74,20 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 onMounted(() => {
   document.title = 'Política de Cookies — PECADO Café Gastrobar Ciutadella'
+
+  const reveals = document.querySelectorAll('.cookies-page__section, .cookies-page__card, .cookies-page__title')
+  reveals.forEach(el => el.classList.add('reveal'))
+
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }),
+    { threshold: 0.1 }
+  )
+  reveals.forEach(el => io.observe(el))
+  setTimeout(() => reveals.forEach(el => el.classList.add('visible')), 1500)
 })
 </script>
 
@@ -89,9 +99,7 @@ onMounted(() => {
   background: var(--color-white);
 }
 
-.cookies-page__inner {
-  max-width: 860px;
-}
+.cookies-page__inner { max-width: 860px; }
 
 .cookies-page__title {
   font-family: var(--font-heading);
@@ -111,10 +119,6 @@ onMounted(() => {
   margin-bottom: var(--space-xl);
 }
 
-.cookies-page__section {
-  /* section sin estilos especiales — hereda */
-}
-
 .cookies-page__section-heading {
   font-family: var(--font-heading);
   font-size: var(--font-size-lg);
@@ -127,7 +131,7 @@ onMounted(() => {
   line-height: 1.7;
 }
 
-/* ── Grid de tipos de cookies ── */
+/* ── Grid ── */
 .cookies-page__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -137,9 +141,20 @@ onMounted(() => {
 
 .cookies-page__card {
   padding: 1.5rem;
-  border: 1px solid rgba(201,168,76,0.3);
+  border: 1px solid rgba(201,168,76,0.28);
   border-radius: var(--radius-md);
   background: #fdf9f2;
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal),
+    border-color var(--transition-normal);
+  box-shadow: var(--shadow-card);
+}
+
+.cookies-page__card:hover {
+  box-shadow: 0 8px 28px rgba(201,168,76,0.18);
+  transform: translateY(-3px);
+  border-color: rgba(201,168,76,0.45);
 }
 
 .cookies-page__card-title {
@@ -165,6 +180,11 @@ onMounted(() => {
   font-size: var(--font-size-base);
   color: var(--color-dark);
   line-height: 1.8;
+  transition: box-shadow var(--transition-normal);
+}
+
+.cookies-page__contacto:hover {
+  box-shadow: 0 4px 16px rgba(201,168,76,0.12);
 }
 
 .cookies-page__contacto a {
@@ -178,12 +198,12 @@ onMounted(() => {
   opacity: 1;
 }
 
-/* ── Botón volver ── */
+/* ── Back button ── */
 .cookies-page__back {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.75rem;
+  padding: 0.8rem 1.85rem;
   background: var(--color-primary);
   color: var(--color-white);
   font-weight: 700;
@@ -192,18 +212,21 @@ onMounted(() => {
   text-transform: uppercase;
   border-radius: var(--radius-full);
   text-decoration: none;
-  transition: background var(--transition-normal), transform var(--transition-fast);
+  transition:
+    background var(--transition-normal),
+    transform var(--transition-fast),
+    box-shadow var(--transition-normal);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
 }
 
 .cookies-page__back:hover {
   background: var(--color-primary-dark);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(201,168,76,0.42);
   opacity: 1;
 }
 
 @media (max-width: 600px) {
-  .cookies-page__grid {
-    grid-template-columns: 1fr;
-  }
+  .cookies-page__grid { grid-template-columns: 1fr; }
 }
 </style>

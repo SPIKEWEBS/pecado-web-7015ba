@@ -1,14 +1,14 @@
 <template>
   <section class="servicios section" aria-labelledby="servicios-heading">
     <div class="container">
-      <div class="servicios__header">
+      <div class="servicios__header reveal" ref="headerRef">
         <h2 id="servicios-heading" class="servicios__main-heading">Lo que ofrecemos</h2>
         <span class="section-title-deco" aria-hidden="true"></span>
       </div>
 
       <div class="servicios__cols">
         <!-- Servicios -->
-        <div class="servicios__block">
+        <div class="servicios__block reveal reveal-delay-1" ref="block1Ref">
           <h3 class="servicios__heading">Servicios</h3>
           <div class="servicios__grid">
             <div
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Tarjetas -->
-        <div class="servicios__block">
+        <div class="servicios__block reveal reveal-delay-2" ref="block2Ref">
           <h3 class="servicios__heading">Tarjetas aceptadas</h3>
           <div class="servicios__grid">
             <div
@@ -42,7 +42,22 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import data from '../../data/siteData.js'
+
+const headerRef = ref(null)
+const block1Ref = ref(null)
+const block2Ref = ref(null)
+
+onMounted(() => {
+  const all = [headerRef.value, block1Ref.value, block2Ref.value].filter(Boolean)
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }),
+    { threshold: 0.12 }
+  )
+  all.forEach(el => io.observe(el))
+  setTimeout(() => all.forEach(el => el.classList.add('visible')), 1500)
+})
 </script>
 
 <style scoped>
@@ -55,9 +70,7 @@ import data from '../../data/siteData.js'
 .servicios::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
 }
@@ -97,8 +110,8 @@ import data from '../../data/siteData.js'
 }
 
 .servicios__chip {
-  padding: 0.85rem 1rem;
-  border: 1px solid rgba(201,168,76,0.3);
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(201,168,76,0.28);
   border-radius: var(--radius-card);
   background: var(--color-white);
   font-size: var(--font-size-sm);
@@ -109,23 +122,29 @@ import data from '../../data/siteData.js'
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast),
+    background var(--transition-fast);
   box-shadow: var(--shadow-card);
 }
 
 .servicios__chip:hover {
   border-color: var(--color-primary);
-  box-shadow: 0 4px 16px rgba(201,168,76,0.2);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+  transform: translateY(-3px) scale(1.02);
+  background: #fffdf6;
 }
 
 .servicios__chip-dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--color-primary);
   flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(201,168,76,0.5);
 }
 
 .servicios__chip--card {

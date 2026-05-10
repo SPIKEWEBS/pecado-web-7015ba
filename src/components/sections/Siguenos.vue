@@ -1,12 +1,12 @@
 <template>
   <section class="siguenos section" aria-labelledby="siguenos-heading">
     <div class="container">
-      <div class="siguenos__header">
+      <div class="siguenos__header reveal" ref="headerRef">
         <h2 id="siguenos-heading" class="siguenos__heading">Síguenos</h2>
         <span class="section-title-deco" aria-hidden="true"></span>
       </div>
 
-      <div class="siguenos__grid">
+      <div class="siguenos__grid reveal reveal-delay-1" ref="socialRef">
         <a
           v-for="red in data.redesSociales"
           :key="red.nombre"
@@ -22,7 +22,7 @@
       </div>
 
       <!-- Marquee de imágenes -->
-      <div class="siguenos__marquee" aria-hidden="true">
+      <div class="siguenos__marquee reveal reveal-delay-2" ref="marqueeRef" aria-hidden="true">
         <div class="siguenos__marquee-track">
           <img
             v-for="(img, i) in [...galeria, ...galeria]"
@@ -42,7 +42,9 @@
         <div
           v-for="(img, i) in galeria"
           :key="i"
-          class="siguenos__galeria-item"
+          class="siguenos__galeria-item reveal"
+          :class="`reveal-delay-${Math.min((i % 4) + 1, 6)}`"
+          :ref="el => galeriaRefs[i] = el"
         >
           <img
             :src="img.src"
@@ -60,9 +62,27 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import data from '../../data/siteData.js'
 
-const galeria = data.galeria
+const galeria    = data.galeria
+const headerRef  = ref(null)
+const socialRef  = ref(null)
+const marqueeRef = ref(null)
+const galeriaRefs = ref([])
+
+onMounted(() => {
+  const priorityEls = [headerRef.value, socialRef.value, marqueeRef.value].filter(Boolean)
+  const galleryEls  = galeriaRefs.value.filter(Boolean)
+  const all = [...priorityEls, ...galleryEls]
+
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }),
+    { threshold: 0.08 }
+  )
+  all.forEach(el => io.observe(el))
+  setTimeout(() => all.forEach(el => el.classList.add('visible')), 1500)
+})
 </script>
 
 <style scoped>
@@ -72,12 +92,41 @@ const galeria = data.galeria
   overflow: hidden;
 }
 
+/* Gradient CTA background para la sección entera */
+.siguenos::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(10, 7, 2, 0) 0%,
+    rgba(201, 168, 76, 0.04) 50%,
+    rgba(10, 7, 2, 0) 100%
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
 .siguenos::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-primary-light), transparent);
+  z-index: 1;
+}
+
+.siguenos > .container {
+  position: relative;
+  z-index: 2;
 }
 
 .siguenos__header {
@@ -94,7 +143,6 @@ const galeria = data.galeria
   font-weight: 700;
 }
 
-/* Override deco color on dark bg */
 .siguenos .section-title-deco {
   background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
 }
@@ -112,8 +160,8 @@ const galeria = data.galeria
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.9rem 2rem;
-  border: 1px solid rgba(201,168,76,0.4);
+  padding: 0.95rem 2.2rem;
+  border: 1px solid rgba(201,168,76,0.38);
   border-radius: var(--radius-full);
   background: rgba(255,255,255,0.04);
   color: rgba(255,255,255,0.88);
@@ -122,7 +170,12 @@ const galeria = data.galeria
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background var(--transition-normal), border-color var(--transition-normal), transform var(--transition-fast), box-shadow var(--transition-normal);
+  transition:
+    background var(--transition-normal),
+    border-color var(--transition-normal),
+    transform var(--transition-fast),
+    box-shadow var(--transition-normal),
+    color var(--transition-normal);
   backdrop-filter: blur(6px);
 }
 
@@ -130,14 +183,12 @@ const galeria = data.galeria
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #0e0b06;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(201,168,76,0.4);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 10px 32px rgba(201,168,76,0.45);
   opacity: 1;
 }
 
-.siguenos__icon {
-  font-size: 1.3rem;
-}
+.siguenos__icon { font-size: 1.3rem; }
 
 /* ── Marquee ── */
 .siguenos__marquee {
@@ -149,9 +200,9 @@ const galeria = data.galeria
 
 .siguenos__marquee-track {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.85rem;
   width: max-content;
-  animation: marquee-scroll 32s linear infinite;
+  animation: marquee-scroll 34s linear infinite;
 }
 
 @keyframes marquee-scroll {
@@ -165,12 +216,13 @@ const galeria = data.galeria
   object-fit: cover;
   border-radius: var(--radius-md);
   flex-shrink: 0;
-  opacity: 0.75;
-  transition: opacity var(--transition-normal);
+  opacity: 0.72;
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
 }
 
 .siguenos__marquee-img:hover {
   opacity: 1;
+  transform: scale(1.04);
 }
 
 /* ── Galería grid ── */
@@ -184,6 +236,12 @@ const galeria = data.galeria
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.siguenos__galeria-item:hover {
+  box-shadow: 0 8px 32px rgba(201,168,76,0.28);
+  transform: scale(1.02);
 }
 
 .siguenos__galeria-img {
@@ -199,28 +257,19 @@ const galeria = data.galeria
   inset: 0;
   background: linear-gradient(
     to bottom,
-    transparent 50%,
-    rgba(201,168,76,0.25) 100%
+    transparent 40%,
+    rgba(201,168,76,0.28) 100%
   );
   opacity: 0;
   transition: opacity var(--transition-normal);
 }
 
-.siguenos__galeria-item:hover .siguenos__galeria-img {
-  transform: scale(1.06);
-}
-
-.siguenos__galeria-item:hover .siguenos__galeria-overlay {
-  opacity: 1;
-}
+.siguenos__galeria-item:hover .siguenos__galeria-img    { transform: scale(1.07); }
+.siguenos__galeria-item:hover .siguenos__galeria-overlay { opacity: 1; }
 
 @media (max-width: 600px) {
-  .siguenos__galeria {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .siguenos__galeria-img {
-    height: 140px;
-  }
-  .siguenos__marquee { display: none; }
+  .siguenos__galeria     { grid-template-columns: repeat(2, 1fr); }
+  .siguenos__galeria-img { height: 140px; }
+  .siguenos__marquee     { display: none; }
 }
 </style>

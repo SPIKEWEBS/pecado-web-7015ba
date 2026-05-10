@@ -5,20 +5,23 @@
    ============================================================ */
 :root {
   /* ── Paleta de colores ── */
-  --color-primary:       #c9a84c;   /* dorado principal */
-  --color-primary-dark:  #a8863a;   /* dorado oscuro */
-  --color-primary-light: #e2c97e;   /* dorado claro */
-  --color-secondary:     #8b2e2e;   /* vino/rojo oscuro */
+  --color-primary:       #c9a84c;
+  --color-primary-dark:  #a8863a;
+  --color-primary-light: #e2c97e;
+  --color-secondary:     #8b2e2e;
   --color-black:         #000000;
   --color-dark:          #1a1a1a;
-  --color-surface:       #fdf9f2;   /* crema cálida */
-  --color-surface-alt:   #f5f0e8;   /* crema más oscura */
+  --color-surface:       #fdf9f2;
+  --color-surface-alt:   #f5f0e8;
   --color-white:         #ffffff;
   --color-text:          #1a1a1a;
   --color-text-light:    #ffffff;
   --color-text-muted:    rgba(26,26,26,0.60);
   --color-border:        rgba(201,168,76,0.25);
   --color-divider:       rgba(201,168,76,0.3);
+
+  /* ── RGB para sombras glow ── */
+  --color-primary-rgb:   201,168,76;
 
   /* ── Tipografía ── */
   --font-heading: 'Playfair Display', Georgia, serif;
@@ -54,7 +57,8 @@
   --shadow-md:        0 4px 16px rgba(0,0,0,0.15);
   --shadow-lg:        0 8px 32px rgba(0,0,0,0.22);
   --shadow-card:      0 4px 24px rgba(0,0,0,0.08);
-  --shadow-card-hover:0 12px 40px rgba(0,0,0,0.15);
+  --shadow-card-hover:0 12px 40px rgba(0,0,0,0.18);
+  --shadow-glow:      0 0 40px rgba(201,168,76,0.22);
 
   /* ── Transiciones ── */
   --transition-fast:   150ms ease;

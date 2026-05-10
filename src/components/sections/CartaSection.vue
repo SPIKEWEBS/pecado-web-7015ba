@@ -1,7 +1,7 @@
 <template>
   <section id="carta" class="carta section" aria-labelledby="carta-heading">
     <div class="container">
-      <div class="carta__header">
+      <div class="carta__header reveal" ref="headerRef">
         <h2 id="carta-heading" class="carta__heading">Nuestra Carta</h2>
         <span class="section-title-deco" aria-hidden="true"></span>
         <p class="carta__intro">Ingredientes frescos, técnica cuidada y alma mediterránea en cada plato.</p>
@@ -9,7 +9,7 @@
 
       <div class="carta__cols">
         <!-- Imagen principal -->
-        <div class="carta__media-col">
+        <div class="carta__media-col reveal reveal-delay-1" ref="col1Ref">
           <div class="carta__img-wrap">
             <img
               src="/images/pecadomenorca25-08-cb53e13e.jpg"
@@ -23,55 +23,27 @@
           </div>
         </div>
 
-        <div class="carta__content-col">
-          <!-- Platos label -->
+        <div class="carta__content-col reveal reveal-delay-2" ref="col2Ref">
           <div class="carta__label-row">
             <span class="carta__label-line" aria-hidden="true"></span>
             <h3 class="carta__platos-heading">Platos</h3>
             <span class="carta__label-line" aria-hidden="true"></span>
           </div>
 
-          <!-- Grid de platos -->
           <div class="carta__platos-grid">
-            <div class="carta__plato-wrap">
+            <div
+              v-for="(item, i) in platoImgs"
+              :key="i"
+              class="carta__plato-wrap"
+            >
               <img
-                src="/images/pecadomenorca25-02-057e29bc.jpg"
-                alt="Plato de Pecado Bar &amp; Grill"
+                :src="item.src"
+                :alt="item.alt"
                 width="280" height="200"
                 loading="lazy"
                 class="carta__plato-img"
               />
-              <div class="carta__plato-overlay">Interior</div>
-            </div>
-            <div class="carta__plato-wrap">
-              <img
-                src="/images/pecadomenorca25-07-1b7531f3.jpg"
-                alt="Especialidad culinaria Pecado"
-                width="280" height="200"
-                loading="lazy"
-                class="carta__plato-img"
-              />
-              <div class="carta__plato-overlay">Especialidades</div>
-            </div>
-            <div class="carta__plato-wrap">
-              <img
-                src="/images/pecadomenorca25-04-b623c613.jpg"
-                alt="Terraza Pecado Menorca"
-                width="280" height="200"
-                loading="lazy"
-                class="carta__plato-img"
-              />
-              <div class="carta__plato-overlay">Terraza</div>
-            </div>
-            <div class="carta__plato-wrap">
-              <img
-                src="/images/pecadomenorca25-03-bc072448.jpg"
-                alt="Coctelería artesanal Pecado"
-                width="280" height="200"
-                loading="lazy"
-                class="carta__plato-img"
-              />
-              <div class="carta__plato-overlay">Coctelería</div>
+              <div class="carta__plato-overlay">{{ item.label }}</div>
             </div>
           </div>
         </div>
@@ -81,7 +53,29 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import data from '../../data/siteData.js'
+
+const platoImgs = [
+  { src: '/images/pecadomenorca25-02-057e29bc.jpg', alt: 'Plato de Pecado Bar & Grill',   label: 'Interior'       },
+  { src: '/images/pecadomenorca25-07-1b7531f3.jpg', alt: 'Especialidad culinaria Pecado', label: 'Especialidades' },
+  { src: '/images/pecadomenorca25-04-b623c613.jpg', alt: 'Terraza Pecado Menorca',        label: 'Terraza'        },
+  { src: '/images/pecadomenorca25-03-bc072448.jpg', alt: 'Coctelería artesanal Pecado',   label: 'Coctelería'     },
+]
+
+const headerRef = ref(null)
+const col1Ref   = ref(null)
+const col2Ref   = ref(null)
+
+onMounted(() => {
+  const all = [headerRef.value, col1Ref.value, col2Ref.value].filter(Boolean)
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }),
+    { threshold: 0.1 }
+  )
+  all.forEach(el => io.observe(el))
+  setTimeout(() => all.forEach(el => el.classList.add('visible')), 1500)
+})
 </script>
 
 <style scoped>
@@ -135,14 +129,14 @@ import data from '../../data/siteData.js'
 }
 
 .carta__img-wrap:hover .carta__img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .carta__img-badge {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.65);
   backdrop-filter: blur(8px);
   color: var(--color-primary-light);
   font-family: var(--font-heading);
@@ -150,9 +144,9 @@ import data from '../../data/siteData.js'
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.4rem 0.9rem;
+  padding: 0.45rem 1rem;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(201,168,76,0.4);
+  border: 1px solid rgba(201,168,76,0.45);
 }
 
 /* ── Content col ── */
@@ -196,10 +190,16 @@ import data from '../../data/siteData.js'
   overflow: hidden;
   box-shadow: var(--shadow-card);
   cursor: pointer;
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.carta__plato-wrap:hover {
+  box-shadow: 0 8px 32px rgba(201,168,76,0.22);
+  transform: scale(1.02);
 }
 
 .carta__plato-wrap:hover .carta__plato-img {
-  transform: scale(1.07);
+  transform: scale(1.08);
 }
 
 .carta__plato-wrap:hover .carta__plato-overlay {
@@ -217,13 +217,14 @@ import data from '../../data/siteData.js'
 .carta__plato-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 100%);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0.75rem 0.85rem;
   color: var(--color-primary-light);
   font-family: var(--font-heading);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -232,20 +233,12 @@ import data from '../../data/siteData.js'
 }
 
 @media (max-width: 768px) {
-  .carta__cols {
-    grid-template-columns: 1fr;
-  }
-  .carta__img {
-    height: 280px;
-  }
-  .carta__plato-img {
-    height: 140px;
-  }
+  .carta__cols   { grid-template-columns: 1fr; }
+  .carta__img    { height: 280px; }
+  .carta__plato-img { height: 140px; }
 }
 
 @media (max-width: 480px) {
-  .carta__platos-grid {
-    grid-template-columns: 1fr;
-  }
+  .carta__platos-grid { grid-template-columns: 1fr; }
 }
 </style>

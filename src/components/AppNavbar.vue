@@ -51,8 +51,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const scrolled = ref(false)
-const menuOpen = ref(false)
+const scrolled  = ref(false)
+const menuOpen  = ref(false)
 
 function handleScroll() {
   scrolled.value = window.scrollY > 40
@@ -67,6 +67,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* ── Base ── */
 .navbar {
   position: fixed;
   top: 0;
@@ -77,13 +78,16 @@ onUnmounted(() => {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(201,168,76,0.15);
-  transition: background var(--transition-normal), box-shadow var(--transition-normal);
+  transition:
+    background var(--transition-normal),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
 }
 
 .navbar--scrolled {
-  background: rgba(20, 14, 5, 0.96);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
-  border-bottom-color: rgba(201,168,76,0.25);
+  background: rgba(14, 10, 4, 0.97);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  border-bottom-color: rgba(201,168,76,0.30);
 }
 
 .navbar__inner {
@@ -93,12 +97,19 @@ onUnmounted(() => {
   height: var(--nav-height);
 }
 
+/* ── Logo ── */
 .navbar__logo {
   display: flex;
   flex-direction: column;
   gap: 0;
   text-decoration: none;
   line-height: 1;
+  transition: transform var(--transition-normal);
+}
+
+.navbar__logo:hover {
+  transform: scale(1.04);
+  opacity: 1;
 }
 
 .navbar__logo-text {
@@ -108,6 +119,7 @@ onUnmounted(() => {
   color: var(--color-primary);
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  transition: color var(--transition-normal);
 }
 
 .navbar__logo-sub {
@@ -120,6 +132,7 @@ onUnmounted(() => {
   margin-top: 1px;
 }
 
+/* ── Desktop links ── */
 .navbar__links {
   display: flex;
   gap: var(--space-lg);
@@ -136,16 +149,18 @@ onUnmounted(() => {
   font-weight: 700;
   padding: 0.3rem 0;
   position: relative;
+  transition: color var(--transition-normal);
 }
 
 .navbar__link::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 0;
-  height: 1px;
-  background: var(--color-primary);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  border-radius: 2px;
   transition: width var(--transition-normal);
 }
 
@@ -193,7 +208,7 @@ onUnmounted(() => {
 /* ── Mobile menu ── */
 .navbar__mobile {
   display: none;
-  background: rgba(15, 10, 3, 0.97);
+  background: rgba(10, 7, 2, 0.98);
   max-height: 0;
   overflow: hidden;
   transition: max-height var(--transition-slow);
@@ -217,20 +232,25 @@ onUnmounted(() => {
   letter-spacing: 0.12em;
   font-weight: 700;
   text-decoration: none;
-  border-left: 2px solid transparent;
-  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  border-left: 3px solid transparent;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    padding-left var(--transition-fast);
 }
 
 .navbar__mobile-link:hover {
   background: rgba(201,168,76,0.1);
   border-left-color: var(--color-primary);
   color: var(--color-primary-light);
+  padding-left: calc(var(--space-lg) + 6px);
   opacity: 1;
 }
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .navbar__links { display: none; }
+  .navbar__links  { display: none; }
   .navbar__burger { display: flex; }
   .navbar__mobile { display: block; }
 }

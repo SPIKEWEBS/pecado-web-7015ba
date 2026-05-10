@@ -1,14 +1,14 @@
 <template>
   <section id="Contacto" class="contacto section" aria-labelledby="contacto-heading">
     <div class="container">
-      <div class="contacto__header">
+      <div class="contacto__header reveal" ref="headerRef">
         <h2 id="contacto-heading" class="contacto__heading">Contacto &amp; Horario</h2>
         <span class="section-title-deco" aria-hidden="true"></span>
       </div>
 
       <div class="contacto__grid">
         <!-- Horario -->
-        <div class="contacto__horario" role="region" aria-labelledby="horario-heading">
+        <div class="contacto__horario reveal reveal-delay-1" ref="horarioRef" role="region" aria-labelledby="horario-heading">
           <h3 id="horario-heading" class="contacto__subheading">
             <span class="contacto__subheading-icon" aria-hidden="true">🕐</span>
             Horario
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Info -->
-        <div class="contacto__info" role="region" aria-labelledby="info-heading">
+        <div class="contacto__info reveal reveal-delay-2" ref="infoRef" role="region" aria-labelledby="info-heading">
           <h3 id="info-heading" class="contacto__subheading">
             <span class="contacto__subheading-icon" aria-hidden="true">📍</span>
             Encuéntranos
@@ -85,7 +85,22 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import data from '../../data/siteData.js'
+
+const headerRef  = ref(null)
+const horarioRef = ref(null)
+const infoRef    = ref(null)
+
+onMounted(() => {
+  const all = [headerRef.value, horarioRef.value, infoRef.value].filter(Boolean)
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }),
+    { threshold: 0.1 }
+  )
+  all.forEach(el => io.observe(el))
+  setTimeout(() => all.forEach(el => el.classList.add('visible')), 1500)
+})
 </script>
 
 <style scoped>
@@ -125,16 +140,14 @@ import data from '../../data/siteData.js'
   font-style: italic;
 }
 
-.contacto__subheading-icon {
-  font-size: 1.2rem;
-}
+.contacto__subheading-icon { font-size: 1.2rem; }
 
 /* ── Aviso ── */
 .contacto__aviso {
   background: #fff8e1;
-  border-left: 3px solid var(--color-primary);
+  border-left: 4px solid var(--color-primary);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  padding: 0.85rem 1rem;
+  padding: 0.9rem 1.1rem;
   font-size: var(--font-size-sm);
   color: #5a4000;
   font-weight: 600;
@@ -143,6 +156,7 @@ import data from '../../data/siteData.js'
   align-items: flex-start;
   gap: 0.5rem;
   line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(201,168,76,0.12);
 }
 
 /* ── Horario list ── */
@@ -160,22 +174,18 @@ import data from '../../data/siteData.js'
 .contacto__horario-row {
   display: flex;
   align-items: center;
-  padding: 0.7rem 1.1rem;
-  border-bottom: 1px solid rgba(201,168,76,0.1);
+  padding: 0.72rem 1.1rem;
+  border-bottom: 1px solid rgba(201,168,76,0.08);
   transition: background var(--transition-fast);
 }
 
-.contacto__horario-row:last-child {
-  border-bottom: none;
-}
+.contacto__horario-row:last-child { border-bottom: none; }
 
 .contacto__horario-row:hover {
   background: var(--color-surface);
 }
 
-.contacto__horario-row--closed {
-  opacity: 0.5;
-}
+.contacto__horario-row--closed { opacity: 0.5; }
 
 .contacto__horario-dia {
   font-size: var(--font-size-sm);
@@ -214,11 +224,16 @@ import data from '../../data/siteData.js'
   background: var(--color-white);
   margin-bottom: var(--space-sm);
   box-shadow: var(--shadow-card);
-  transition: box-shadow var(--transition-fast);
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .contacto__dato:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 6px 24px rgba(201,168,76,0.18);
+  transform: translateY(-2px);
+  border-color: rgba(201,168,76,0.4);
 }
 
 .contacto__dato-icon {
@@ -275,6 +290,11 @@ import data from '../../data/siteData.js'
   border: 1px solid var(--color-border);
   position: relative;
   overflow: hidden;
+  transition: box-shadow var(--transition-normal);
+}
+
+.contacto__map-placeholder:hover {
+  box-shadow: 0 6px 24px rgba(201,168,76,0.15);
 }
 
 .contacto__map-placeholder::before {
@@ -320,12 +340,12 @@ import data from '../../data/siteData.js'
   margin-top: 0.2rem;
 }
 
-/* ── Btn ── */
+/* ── CTA button ── */
 .contacto__maps-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.8rem 1.75rem;
+  padding: 0.85rem 1.85rem;
   background: var(--color-primary);
   color: #0e0b06;
   font-weight: 700;
@@ -334,21 +354,22 @@ import data from '../../data/siteData.js'
   text-transform: uppercase;
   border-radius: var(--radius-btn);
   text-decoration: none;
-  transition: background var(--transition-normal), transform var(--transition-fast), box-shadow var(--transition-normal);
-  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  transition:
+    background var(--transition-normal),
+    transform var(--transition-fast),
+    box-shadow var(--transition-normal),
+    scale var(--transition-fast);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.32);
 }
 
 .contacto__maps-btn:hover {
   background: var(--color-primary-light);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(201,168,76,0.45);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(201,168,76,0.48);
   opacity: 1;
 }
 
 @media (max-width: 768px) {
-  .contacto__grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-  }
+  .contacto__grid { grid-template-columns: 1fr; gap: var(--space-lg); }
 }
 </style>
