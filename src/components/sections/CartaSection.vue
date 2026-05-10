@@ -1,64 +1,78 @@
 <template>
   <section id="carta" class="carta section" aria-labelledby="carta-heading">
     <div class="container">
-      <h2 id="carta-heading" class="carta__heading">Carta</h2>
+      <div class="carta__header">
+        <h2 id="carta-heading" class="carta__heading">Nuestra Carta</h2>
+        <span class="section-title-deco" aria-hidden="true"></span>
+        <p class="carta__intro">Ingredientes frescos, técnica cuidada y alma mediterránea en cada plato.</p>
+      </div>
 
       <div class="carta__cols">
-        <!-- Desayunos / imagen izquierda -->
+        <!-- Imagen principal -->
         <div class="carta__media-col">
-          <img
-            src="/images/pecadomenorca25-08-cb53e13e.jpg"
-            alt="Desayunos en Pecado Café Gastrobar Ciutadella"
-            width="600"
-            height="450"
-            loading="lazy"
-            class="carta__img"
-          />
+          <div class="carta__img-wrap">
+            <img
+              src="/images/pecadomenorca25-08-cb53e13e.jpg"
+              alt="Desayunos en Pecado Bar &amp; Grill Ciutadella"
+              width="600"
+              height="450"
+              loading="lazy"
+              class="carta__img"
+            />
+            <div class="carta__img-badge">Desayunos</div>
+          </div>
         </div>
 
         <div class="carta__content-col">
-          <div class="carta__category">
-            <p class="carta__category-label">{{ data.cartaSeccionTitulo }}</p>
+          <!-- Platos label -->
+          <div class="carta__label-row">
+            <span class="carta__label-line" aria-hidden="true"></span>
+            <h3 class="carta__platos-heading">Platos</h3>
+            <span class="carta__label-line" aria-hidden="true"></span>
           </div>
 
-          <div class="carta__category">
-            <h2 class="carta__platos-heading" id="platos-heading">Platos</h2>
-          </div>
-
-          <!-- Imágenes de platos -->
+          <!-- Grid de platos -->
           <div class="carta__platos-grid">
-            <img
-              src="/images/pecadomenorca25-02-057e29bc.jpg"
-              alt="Plato de Pecado Gastrobar"
-              width="280"
-              height="200"
-              loading="lazy"
-              class="carta__plato-img"
-            />
-            <img
-              src="/images/pecadomenorca25-07-1b7531f3.jpg"
-              alt="Especialidad culinaria Pecado Menorca"
-              width="280"
-              height="200"
-              loading="lazy"
-              class="carta__plato-img"
-            />
-            <img
-              src="/images/pecadomenorca25-04-b623c613.jpg"
-              alt="Plato gourmet Pecado Ciutadella"
-              width="280"
-              height="200"
-              loading="lazy"
-              class="carta__plato-img"
-            />
-            <img
-              src="/images/pecadomenorca25-03-bc072448.jpg"
-              alt="Creación gastronómica Pecado"
-              width="280"
-              height="200"
-              loading="lazy"
-              class="carta__plato-img"
-            />
+            <div class="carta__plato-wrap">
+              <img
+                src="/images/pecadomenorca25-02-057e29bc.jpg"
+                alt="Plato de Pecado Bar &amp; Grill"
+                width="280" height="200"
+                loading="lazy"
+                class="carta__plato-img"
+              />
+              <div class="carta__plato-overlay">Interior</div>
+            </div>
+            <div class="carta__plato-wrap">
+              <img
+                src="/images/pecadomenorca25-07-1b7531f3.jpg"
+                alt="Especialidad culinaria Pecado"
+                width="280" height="200"
+                loading="lazy"
+                class="carta__plato-img"
+              />
+              <div class="carta__plato-overlay">Especialidades</div>
+            </div>
+            <div class="carta__plato-wrap">
+              <img
+                src="/images/pecadomenorca25-04-b623c613.jpg"
+                alt="Terraza Pecado Menorca"
+                width="280" height="200"
+                loading="lazy"
+                class="carta__plato-img"
+              />
+              <div class="carta__plato-overlay">Terraza</div>
+            </div>
+            <div class="carta__plato-wrap">
+              <img
+                src="/images/pecadomenorca25-03-bc072448.jpg"
+                alt="Coctelería artesanal Pecado"
+                width="280" height="200"
+                loading="lazy"
+                class="carta__plato-img"
+              />
+              <div class="carta__plato-overlay">Coctelería</div>
+            </div>
           </div>
         </div>
       </div>
@@ -75,14 +89,26 @@ import data from '../../data/siteData.js'
   background: var(--color-white);
 }
 
-.carta__heading {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-2xl);
-  color: var(--color-dark);
+.carta__header {
   text-align: center;
   margin-bottom: var(--space-xl);
+}
+
+.carta__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  color: var(--color-dark);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.carta__intro {
+  margin-top: var(--space-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-family: var(--font-heading);
 }
 
 .carta__cols {
@@ -92,64 +118,128 @@ import data from '../../data/siteData.js'
   align-items: start;
 }
 
-.carta__img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  border-radius: var(--radius-md);
+/* ── Imagen principal ── */
+.carta__img-wrap {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
 }
 
+.carta__img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.carta__img-wrap:hover .carta__img {
+  transform: scale(1.04);
+}
+
+.carta__img-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  color: var(--color-primary-light);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(201,168,76,0.4);
+}
+
+/* ── Content col ── */
 .carta__content-col {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
 
-.carta__category {
-  padding: 1rem 1.5rem;
-  border: 1px solid rgba(201,168,76,0.3);
-  border-radius: var(--radius-md);
-  background: #fdf9f2;
+.carta__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-.carta__category-label {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-lg);
-  color: var(--color-dark);
-  font-weight: 700;
+.carta__label-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-divider);
 }
 
 .carta__platos-heading {
   font-family: var(--font-heading);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   color: var(--color-dark);
   font-weight: 700;
+  font-style: italic;
+  white-space: nowrap;
 }
 
+/* ── Platos grid ── */
 .carta__platos-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-sm);
+  gap: 0.85rem;
+}
+
+.carta__plato-wrap {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+}
+
+.carta__plato-wrap:hover .carta__plato-img {
+  transform: scale(1.07);
+}
+
+.carta__plato-wrap:hover .carta__plato-overlay {
+  opacity: 1;
 }
 
 .carta__plato-img {
   width: 100%;
-  height: 160px;
+  height: 170px;
   object-fit: cover;
-  border-radius: var(--radius-md);
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.carta__plato-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-light);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
 }
 
 @media (max-width: 768px) {
   .carta__cols {
     grid-template-columns: 1fr;
   }
-
   .carta__img {
-    height: 260px;
+    height: 280px;
   }
-
-  .carta__platos-grid {
-    grid-template-columns: 1fr 1fr;
+  .carta__plato-img {
+    height: 140px;
   }
 }
 

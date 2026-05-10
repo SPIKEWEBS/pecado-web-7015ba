@@ -1,32 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&display=swap');
+
 /* ============================================================
-   VARIABLES — PECADO Café Gastrobar
+   VARIABLES — PECADO Bar & Grill
    ============================================================ */
 :root {
   /* ── Paleta de colores ── */
-  --color-primary:      #c9a84c;   /* dorado principal */
-  --color-primary-dark: #a8863a;   /* dorado oscuro */
-  --color-primary-light:#d4b56a;   /* dorado claro */
-  --color-black:        #000000;
-  --color-dark:         #111111;
-  --color-surface:      #c9a84c;   /* fondo dorado (footer, nav) */
-  --color-white:        #ffffff;
-  --color-text:         #000000;
-  --color-text-light:   #ffffff;
-  --color-text-muted:   rgba(255,255,255,0.75);
-  --color-border:       rgba(255,255,255,0.3);
-  --color-divider:      #333333;
+  --color-primary:       #c9a84c;   /* dorado principal */
+  --color-primary-dark:  #a8863a;   /* dorado oscuro */
+  --color-primary-light: #e2c97e;   /* dorado claro */
+  --color-secondary:     #8b2e2e;   /* vino/rojo oscuro */
+  --color-black:         #000000;
+  --color-dark:          #1a1a1a;
+  --color-surface:       #fdf9f2;   /* crema cálida */
+  --color-surface-alt:   #f5f0e8;   /* crema más oscura */
+  --color-white:         #ffffff;
+  --color-text:          #1a1a1a;
+  --color-text-light:    #ffffff;
+  --color-text-muted:    rgba(26,26,26,0.60);
+  --color-border:        rgba(201,168,76,0.25);
+  --color-divider:       rgba(201,168,76,0.3);
 
   /* ── Tipografía ── */
-  --font-heading: 'Georgia', 'Times New Roman', serif;
-  --font-body:    'Helvetica Neue', 'Arial', sans-serif;
-  --font-size-xs:  0.75rem;   /* 12px */
-  --font-size-sm:  0.875rem;  /* 14px */
-  --font-size-base:1rem;      /* 16px */
-  --font-size-md:  1.125rem;  /* 18px */
-  --font-size-lg:  1.25rem;   /* 20px */
-  --font-size-xl:  1.5rem;    /* 24px */
-  --font-size-2xl: 2rem;      /* 32px */
-  --font-size-3xl: 2.5rem;    /* 40px */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body:    'Lato', system-ui, sans-serif;
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md:   1.125rem;
+  --font-size-lg:   1.25rem;
+  --font-size-xl:   1.5rem;
+  --font-size-2xl:  2rem;
+  --font-size-3xl:  2.5rem;
 
   /* ── Espaciado ── */
   --space-xs:  0.5rem;
@@ -37,16 +41,20 @@
   --space-2xl: 5rem;
 
   /* ── Bordes ── */
-  --radius-sm:   8px;
+  --radius-sm:   6px;
   --radius-md:   12px;
   --radius-lg:   24px;
   --radius-xl:   40px;
   --radius-full: 9999px;
+  --radius-card: 12px;
+  --radius-btn:  8px;
 
   /* ── Sombras ── */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.12);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.18);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.24);
+  --shadow-sm:        0 2px 8px rgba(0,0,0,0.10);
+  --shadow-md:        0 4px 16px rgba(0,0,0,0.15);
+  --shadow-lg:        0 8px 32px rgba(0,0,0,0.22);
+  --shadow-card:      0 4px 24px rgba(0,0,0,0.08);
+  --shadow-card-hover:0 12px 40px rgba(0,0,0,0.15);
 
   /* ── Transiciones ── */
   --transition-fast:   150ms ease;
@@ -56,15 +64,15 @@
   /* ── Layout ── */
   --max-width:     1200px;
   --nav-height:    80px;
-  --section-pad-v: 80px;
+  --section-pad-v: 90px;
   --section-pad-h: 2rem;
 }
 
 @media (max-width: 768px) {
   :root {
-    --section-pad-v: 48px;
-    --section-pad-h: 1rem;
-    --font-size-3xl: 1.75rem;
+    --section-pad-v: 56px;
+    --section-pad-h: 1.25rem;
+    --font-size-3xl: 1.85rem;
     --font-size-2xl: 1.5rem;
   }
 }
